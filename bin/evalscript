@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const transpiler = require('../dist/transpiler')
+
+if (process.argv[2]) {
+  let fileName = process.argv[2]
+  let ext = fileName.split('.')
+
+  if (
+    ext.length > 0 &&
+    ext[ext.length -1] === 'es'
+  ) {
+    let output = transpiler.transpile(fs.readFileSync(fileName, 'utf-8'))
+    let jsFile = `${ext[0]}.js`
+
+    fs.writeFileSync(jsFile, output)
+  } else {
+    console.log('File must have .es extension.')
+  }
+} else {
+  console.log('You must specify a file.')
+}

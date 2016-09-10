@@ -1,0 +1,40 @@
+{
+  "name": "evalscript",
+  "version": "0.0.5",
+  "description": "Funny* language compiling into JavaScript",
+  "main": "bin/evalscript",
+  "scripts": {
+    "test": "cd examples && eval2 ./test.es",
+    "prepublish": "gulp"
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kocisov/evalscript.git"
+  },
+  "keywords": [
+    "EvalScript",
+    "JavaScript",
+    "Language",
+    "Rewrite",
+    "Compiler",
+    "Parser"
+  ],
+  "bin": {
+    "eval2": "./bin/evalscript"
+  },
+  "author": "kocisov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kocisov/evalscript/issues"
+  },
+  "homepage": "https://github.com/kocisov/evalscript#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-jison": "^1.2.0",
+    "jison": "^0.4.17",
+    "js-beautify": "^1.6.4"
+  }
+}
