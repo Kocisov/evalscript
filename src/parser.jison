@@ -99,6 +99,9 @@ functionInputs
   | functionInputs textTypes {
     $$ = $1 + ',' + $2
   }
+  | EX_MARK {
+    $$ = 'noInput'
+  }
 ;
 
 %%

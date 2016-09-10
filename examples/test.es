@@ -8,3 +8,7 @@ eval log a
   eval c = a
   eval log c
 }
+
+@noInput [!] {
+  eval log 'function without input'
+}

@@ -6,7 +6,7 @@ Why? Because, why not `¯\_(ツ)_/¯`
 ## Installation
 **Install EvalScript globally from npm**
 ```bash
-npm install -g EvalScript
+npm install -g evalscript
 ```
 
 ## Usage

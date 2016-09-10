@@ -1,6 +1,7 @@
 const MainExpression = statements => {
   return `(() => {
     "use strict";
+    
     ${statements}
   })();`
 }
@@ -14,6 +15,9 @@ const AddVarExpression = (name, value) => {
 }
 
 const FunctionExpression = (name, input, statements) => {
+  if (input === 'noInput') {
+    input = ''
+  }
   return `function ${name}(${input}) { ${statements} }`
 }
 
