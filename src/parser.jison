@@ -29,6 +29,7 @@
 '-'                                   return 'MINUS'
 '*'                                   return 'STAR'
 '/'                                   return 'SLASH'
+/* [\\]                                  return 'BACK_SLASH' */
 '<'                                   return 'LEFT_AR'
 '>'                                   return 'RIGHT_AR'
 ','                                   return 'COMMA'

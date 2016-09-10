@@ -6,4 +6,5 @@ eval log a
 
 @random [a b] {
   eval c = a
+  eval log c
 }
