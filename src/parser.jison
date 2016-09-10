@@ -72,6 +72,9 @@ statement
   | AT VAR LEFT_HBRACE functionInputs RIGHT_HBRACE LEFT_UBRACE statements RIGHT_UBRACE {
     $$ = yy.FunctionExpression($2, $4, $7)
   }
+  | EVAL LEFT_BRACE VAR RIGHT_BRACE LEFT_UBRACE statements RIGHT_UBRACE {
+    $$ = yy.IfExpression($3, $6)
+  }
 ;
 
 logTypes

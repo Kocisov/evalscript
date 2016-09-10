@@ -9,7 +9,7 @@ Why? Because, why not `¯\_(ツ)_/¯`
 ```bash
 npm install -g evalscript
 
-# also old version of evalscript is avaible as @old tag
+# also old version of evalscript is available as @old tag
 # you should really not use that! :D
 ```
 

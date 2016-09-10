@@ -1,7 +1,7 @@
 const MainExpression = statements => {
   return `(() => {
     "use strict";
-    
+
     ${statements}
   })();`
 }
@@ -21,9 +21,14 @@ const FunctionExpression = (name, input, statements) => {
   return `function ${name}(${input}) { ${statements} }`
 }
 
+const IfExpression = (ifs, statements) => {
+  return `if (${ifs}) { ${statements} }`
+}
+
 export {
   MainExpression,
   LogExpression,
   AddVarExpression,
-  FunctionExpression
+  FunctionExpression,
+  IfExpression
 }
