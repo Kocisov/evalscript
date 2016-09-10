@@ -1,18 +1,45 @@
 %lex
 %%
 
-\s+                                /* skip whitespaces */
-'eval'                             return 'EVAL'
-'log'                              return 'LOG'
-'='                                return 'EQUAL'
+\s+                                   /* skip whitespace */
+"//".*                                /* Ignore */
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]   /* Ignore */
 
-(['](\\.|[^']|\\\')*?['])+         return 'STRING'
-(["](\\.|[^"]|\\\")*?["])+         return 'STRING'
+'eval'                                return 'EVAL'
+'log'                                 return 'LOG'
 
-[0-9]+("."[0-9]+)?\b               return 'NUMBER'
-[_a-zA-Z]+[_a-zA-Z0-9]*\b          return 'VAR'
+(['](\\.|[^']|\\\')*?['])+            return 'STRING'
+(["](\\.|[^"]|\\\")*?["])+            return 'STRING'
 
-<<EOF>>                            return 'EOF'
+'@'                                   return 'AT'
+'{'                                   return 'LEFT_UBRACE'
+'}'                                   return 'RIGHT_UBRACE'
+'('                                   return 'LEFT_BRACE'
+')'                                   return 'RIGHT_BRACE'
+'['                                   return 'LEFT_HBRACE'
+']'                                   return 'RIGHT_HBRACE'
+/* '=['                                  return '=[' */
+'=>'                                  return 'DOUBLE_ARROW'
+'='                                   return 'EQUAL'
+'!='                                  return 'NOT_EQUAL'
+'->'                                  return 'ARROW'
+'!'                                   return 'EX_MARK'
+'?'                                   return 'QU_MARK'
+'+'                                   return 'PLUS'
+'-'                                   return 'MINUS'
+'*'                                   return 'STAR'
+'/'                                   return 'SLASH'
+'<'                                   return 'LEFT_AR'
+'>'                                   return 'RIGHT_AR'
+','                                   return 'COMMA'
+'.'                                   return 'DOT'
+':'                                   return 'DOUBLE_DOT'
+';'                                   return 'SEMICOLON'
+
+[0-9]+("."[0-9]+)?\b                  return 'NUMBER'
+[_a-zA-Z]+[_a-zA-Z0-9]*\b             return 'VAR'
+
+<<EOF>>                               return 'EOF'
 
 /lex
 
@@ -41,6 +68,9 @@ statement
   | EVAL VAR EQUAL textTypes {
     $$ = yy.AddVarExpression($2, $4)
   }
+  | AT VAR LEFT_HBRACE functionInputs RIGHT_HBRACE LEFT_UBRACE statements RIGHT_UBRACE {
+    $$ = yy.FunctionExpression($2, $4, $7)
+  }
 ;
 
 logTypes
@@ -58,6 +88,15 @@ textTypes
   }
   | NUMBER {
     $$ = $1
+  }
+;
+
+functionInputs
+  : textTypes {
+    $$ = $1
+  }
+  | functionInputs textTypes {
+    $$ = $1 + ',' + $2
   }
 ;
 

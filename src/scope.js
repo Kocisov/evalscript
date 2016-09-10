@@ -6,7 +6,6 @@ const MainExpression = statements => {
 }
 
 const LogExpression = (pos, value) => {
-  console.log(pos)
   return `console.log(${value});`
 }
 
@@ -14,8 +13,13 @@ const AddVarExpression = (name, value) => {
   return `var ${name} = ${value};`
 }
 
+const FunctionExpression = (name, input, statements) => {
+  return `function ${name}(${input}) { ${statements} }`
+}
+
 export {
   MainExpression,
   LogExpression,
-  AddVarExpression
+  AddVarExpression,
+  FunctionExpression
 }

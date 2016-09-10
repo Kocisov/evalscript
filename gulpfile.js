@@ -7,7 +7,7 @@ gulp.task('_js', () => {
   .pipe(babel({
     presets: ['es2015']
   }))
-  .pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('./dist/'))
 })
 
 gulp.task('_jison', () => {
@@ -19,6 +19,7 @@ gulp.task('_jison', () => {
 })
 
 gulp.task('default', ['_js', '_jison'])
+
 gulp.task('watch', () => {
   gulp.watch('src/**/*.*', ['_js', '_jison'])
 })

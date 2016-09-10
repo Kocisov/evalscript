@@ -5,7 +5,8 @@
   "main": "bin/evalscript",
   "scripts": {
     "test": "cd examples && eval2 ./test.es",
-    "prepublish": "gulp"
+    "prepublish": "gulp",
+    "watch": "gulp watch"
   },
   "preferGlobal": true,
   "repository": {
