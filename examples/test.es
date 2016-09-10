@@ -1,17 +1,5 @@
-eval a = 1
+eval obj from './object'
 
-eval log "Hello world!"
-eval log 3
-
-eval (a) {
-  eval log a
-}
-
-@random [a b] {
-  eval c = a
-  eval log c
-}
-
-@noInput [!] {
-  eval log 'function without input'
+eval (obj) {
+  eval log obj
 }

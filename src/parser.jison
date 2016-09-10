@@ -7,6 +7,10 @@
 
 'eval'                                return 'EVAL'
 'log'                                 return 'LOG'
+'true'                                return 'TRUE'
+'false'                               return 'FALSE'
+'from'                                return 'FROM'
+'get'                                 return 'GET'
 
 (['](\\.|[^']|\\\')*?['])+            return 'STRING'
 (["](\\.|[^"]|\\\")*?["])+            return 'STRING'
@@ -19,10 +23,12 @@
 '['                                   return 'LEFT_HBRACE'
 ']'                                   return 'RIGHT_HBRACE'
 /* '=['                                  return '=[' */
-'=>'                                  return 'DOUBLE_ARROW'
+'<='                                  return 'LEFT_DOUBLE_ARROW'
+'=>'                                  return 'RIGHT_DOUBLE_ARROW'
 '='                                   return 'EQUAL'
 '!='                                  return 'NOT_EQUAL'
-'->'                                  return 'ARROW'
+'<-'                                  return 'LEFT_ARROW'
+'->'                                  return 'RIGHT_ARROW'
 '!'                                   return 'EX_MARK'
 '?'                                   return 'QU_MARK'
 '+'                                   return 'PLUS'
@@ -75,11 +81,32 @@ statement
   | EVAL LEFT_BRACE VAR RIGHT_BRACE LEFT_UBRACE statements RIGHT_UBRACE {
     $$ = yy.IfExpression($3, $6)
   }
+  | VAR LEFT_BRACE functionInputs RIGHT_BRACE {
+    $$ = yy.FunctionExpression($1, $3, 'call')
+  }
+  | EVAL VAR LEFT_HBRACE objectTypes RIGHT_HBRACE {
+    $$ = yy.CreateFObject($2, $4)
+  }
+  | EVAL textTypes FROM STRING {
+    $$ = yy.ImportExpression($2, $4)
+  }
+  | EVAL VAR {
+    $$ = yy.ExportExpression($2)
+  }
 ;
 
 logTypes
   : textTypes {
     $$ = $1
+  }
+;
+
+objectTypes
+  : textTypes {
+    $$ = $1
+  }
+  | objectTypes textTypes {
+    $$ = $1 + ',' + $2
   }
 ;
 
@@ -91,6 +118,13 @@ textTypes
     $$ = $1
   }
   | NUMBER {
+    $$ = $1
+  }
+  /* rethink */
+  | TRUE {
+    $$ = $1
+  }
+  | FALSE {
     $$ = $1
   }
 ;

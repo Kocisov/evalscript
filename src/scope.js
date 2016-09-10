@@ -18,6 +18,11 @@ const FunctionExpression = (name, input, statements) => {
   if (input === 'noInput') {
     input = ''
   }
+
+  if (statements === 'call') {
+    return `${name}(${input});`
+  }
+
   return `function ${name}(${input}) { ${statements} }`
 }
 
@@ -25,10 +30,25 @@ const IfExpression = (ifs, statements) => {
   return `if (${ifs}) { ${statements} }`
 }
 
+const CreateFObject = (name, values) => {
+  return `var ${name} = [ ${values} ];`
+}
+
+const ImportExpression = (that, from) => {
+  return `import ${that} from ${from};`
+}
+
+const ExportExpression = that => {
+  return `export default ${that};`
+}
+
 export {
   MainExpression,
   LogExpression,
   AddVarExpression,
   FunctionExpression,
-  IfExpression
+  IfExpression,
+  CreateFObject,
+  ImportExpression,
+  ExportExpression
 }

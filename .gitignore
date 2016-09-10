@@ -2,3 +2,4 @@ node_modules
 dist
 examples/**/*.js
 .DS_Store
+*.log
