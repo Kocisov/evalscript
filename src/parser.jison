@@ -11,6 +11,7 @@
 'false'                               return 'FALSE'
 'from'                                return 'FROM'
 'get'                                 return 'GET'
+'use'                                 return 'USE'
 
 (['](\\.|[^']|\\\')*?['])+            return 'STRING'
 (["](\\.|[^"]|\\\")*?["])+            return 'STRING'
@@ -89,6 +90,9 @@ statement
   }
   | EVAL textTypes FROM STRING {
     $$ = yy.ImportExpression($2, $4)
+  }
+  | EVAL DOT USE textTypes {
+    $$ = yy.Use($4)
   }
   | EVAL VAR {
     $$ = yy.ExportExpression($2)

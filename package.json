@@ -1,6 +1,6 @@
 {
   "name": "evalscript",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Funny* language compiling into JavaScript",
   "main": "bin/evalscript",
   "scripts": {

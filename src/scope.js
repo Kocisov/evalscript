@@ -1,7 +1,6 @@
 const MainExpression = statements => {
   return `(() => {
     "use strict";
-
     ${statements}
   })();`
 }
@@ -42,6 +41,10 @@ const ExportExpression = that => {
   return `export default ${that};`
 }
 
+const Use = that => {
+  return `@eval.use(${that})`
+}
+
 export {
   MainExpression,
   LogExpression,
@@ -50,5 +53,7 @@ export {
   IfExpression,
   CreateFObject,
   ImportExpression,
-  ExportExpression
+  ExportExpression,
+  /* Ignore this */
+  Use
 }

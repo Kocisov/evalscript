@@ -7,7 +7,9 @@ export const transpile = source => {
   return beautify(
     parser.parse(source),
     {
-      indent_size: 2
+      indent_size: 2,
+      end_with_newline: true,
+      space_before_conditional: true
     }
   )
 }
