@@ -1,16 +1,24 @@
+let otps = {
+  p: [],
+  qp: {},
+  variables: 'var',
+  connect: 'require',
+  export: 'module.exports'
+}
+
 const MainExpression = statements => {
   return `(() => {
-    "use strict";
+    "use strict"
     ${statements}
-  })();`
+  })()`
 }
 
 const LogExpression = (pos, value) => {
-  return `console.log(${value});`
+  return `console.log(${value})`
 }
 
 const AddVarExpression = (name, value) => {
-  return `var ${name} = ${value};`
+  return `${opts.variables} ${name} = ${value}`
 }
 
 const FunctionExpression = (name, input, statements) => {
@@ -19,7 +27,7 @@ const FunctionExpression = (name, input, statements) => {
   }
 
   if (statements === 'call') {
-    return `${name}(${input});`
+    return `${name}(${input})`
   }
 
   return `function ${name}(${input}) { ${statements} }`
@@ -30,19 +38,23 @@ const IfExpression = (ifs, statements) => {
 }
 
 const CreateFObject = (name, values) => {
-  return `var ${name} = [ ${values} ];`
+  return `var ${name} = [ ${values} ]`
 }
 
 const ImportExpression = (that, from) => {
-  return `import ${that} from ${from};`
+  /* TODO: if (opts.connect === '') {} ... */
+  return `import ${that} from ${from}`
 }
 
 const ExportExpression = that => {
-  return `export default ${that};`
+  return `export default ${that}`
 }
 
 const Use = that => {
-  return `@eval.use(${that})`
+  switch (that) {
+    case 'expression':
+      opts.variables = that
+  }
 }
 
 export {

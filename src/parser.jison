@@ -23,7 +23,7 @@
 ')'                                   return 'RIGHT_BRACE'
 '['                                   return 'LEFT_HBRACE'
 ']'                                   return 'RIGHT_HBRACE'
-/* '=['                                  return '=[' */
+'=['                                  return 'E_RHBRACE'
 '<='                                  return 'LEFT_DOUBLE_ARROW'
 '=>'                                  return 'RIGHT_DOUBLE_ARROW'
 '='                                   return 'EQUAL'
@@ -36,7 +36,6 @@
 '-'                                   return 'MINUS'
 '*'                                   return 'STAR'
 '/'                                   return 'SLASH'
-/* [\\]                                  return 'BACK_SLASH' */
 '<'                                   return 'LEFT_AR'
 '>'                                   return 'RIGHT_AR'
 ','                                   return 'COMMA'
@@ -55,94 +54,117 @@
 %% /* language grammar */
 
 program
-  : statements EOF {
-    return yy.MainExpression($1)
-  }
-;
+  : statements EOF
+    {
+      return yy.MainExpression($1)
+    }
+  ;
 
 statements
-  : statement {
-    $$ = $1
-  }
-  | statements statement {
-    $$ = $1.concat($2)
-  }
-;
+  : statement
+    {
+      $$ = $1
+    }
+  | statements statement
+    {
+      $$ = $1.concat($2)
+    }
+  ;
 
 statement
-  : EVAL LOG logTypes {
-    $$ = yy.LogExpression(@2, $3)
-  }
-  | EVAL VAR EQUAL textTypes {
-    $$ = yy.AddVarExpression($2, $4)
-  }
-  | AT VAR LEFT_HBRACE functionInputs RIGHT_HBRACE LEFT_UBRACE statements RIGHT_UBRACE {
-    $$ = yy.FunctionExpression($2, $4, $7)
-  }
-  | EVAL LEFT_BRACE VAR RIGHT_BRACE LEFT_UBRACE statements RIGHT_UBRACE {
-    $$ = yy.IfExpression($3, $6)
-  }
-  | VAR LEFT_BRACE functionInputs RIGHT_BRACE {
-    $$ = yy.FunctionExpression($1, $3, 'call')
-  }
-  | EVAL VAR LEFT_HBRACE objectTypes RIGHT_HBRACE {
-    $$ = yy.CreateFObject($2, $4)
-  }
-  | EVAL textTypes FROM STRING {
-    $$ = yy.ImportExpression($2, $4)
-  }
-  | EVAL DOT USE textTypes {
-    $$ = yy.Use($4)
-  }
-  | EVAL VAR {
-    $$ = yy.ExportExpression($2)
-  }
-;
+  : EVAL LOG logTypes
+    {
+      $$ = yy.LogExpression(@2, $3)
+    }
+  | EVAL VAR EQUAL textTypes
+    {
+      $$ = yy.AddVarExpression($2, $4)
+    }
+  | AT VAR LEFT_HBRACE functionInputs RIGHT_HBRACE LEFT_UBRACE statements RIGHT_UBRACE
+    {
+      $$ = yy.FunctionExpression($2, $4, $7)
+    }
+  | EVAL LEFT_BRACE VAR RIGHT_BRACE LEFT_UBRACE statements RIGHT_UBRACE
+    {
+      $$ = yy.IfExpression($3, $6)
+    }
+  | VAR LEFT_BRACE functionInputs RIGHT_BRACE
+    {
+      $$ = yy.FunctionExpression($1, $3, 'call')
+    }
+  | EVAL VAR LEFT_HBRACE objectTypes RIGHT_HBRACE
+    {
+      $$ = yy.CreateFObject($2, $4)
+    }
+  | EVAL textTypes FROM STRING
+    {
+      $$ = yy.ImportExpression($2, $4)
+    }
+  | EVAL DOT USE textTypes
+    {
+      $$ = yy.Use($4)
+    }
+  | EVAL VAR
+    {
+      $$ = yy.ExportExpression($2)
+    }
+  ;
 
 logTypes
-  : textTypes {
-    $$ = $1
-  }
-;
+  : textTypes
+    {
+      $$ = $1
+    }
+  ;
 
 objectTypes
-  : textTypes {
-    $$ = $1
-  }
-  | objectTypes textTypes {
-    $$ = $1 + ',' + $2
-  }
-;
+  : textTypes
+    {
+      $$ = $1
+    }
+  | objectTypes textTypes
+    {
+      $$ = $1 + ',' + $2
+    }
+  ;
 
 textTypes
-  : STRING {
-    $$ = $1
-  }
-  | VAR {
-    $$ = $1
-  }
-  | NUMBER {
-    $$ = $1
-  }
+  : STRING
+    {
+      $$ = $1
+    }
+  | VAR
+    {
+      $$ = $1
+    }
+  | NUMBER
+    {
+      $$ = $1
+    }
   /* rethink */
-  | TRUE {
-    $$ = $1
-  }
-  | FALSE {
-    $$ = $1
-  }
-;
+  | TRUE
+    {
+      $$ = $1
+    }
+  | FALSE
+    {
+      $$ = $1
+    }
+  ;
 
 functionInputs
-  : textTypes {
-    $$ = $1
-  }
-  | functionInputs textTypes {
-    $$ = $1 + ',' + $2
-  }
-  | EX_MARK {
-    $$ = 'noInput'
-  }
-;
+  : textTypes
+    {
+      $$ = $1
+    }
+  | functionInputs textTypes
+    {
+      $$ = $1 + ',' + $2
+    }
+  | EX_MARK
+    {
+      $$ = 'noInput'
+    }
+  ;
 
 %%
